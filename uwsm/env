@@ -1,0 +1,38 @@
+#  ┏┓┳┓┓┏
+#  ┣ ┃┃┃┃
+#  ┗┛┛┗┗┛
+#        
+
+# Cursors
+export HYPRCURSOR_THEME=Bibata-Modern-Ice
+export HYPRCURSOR_SIZE=24
+export XCURSOR_THEME=Bibata-Modern-Ice
+export XCURSOR_SIZE=24
+
+# Toolkit backend variables
+export CLUTTER_BACKEND=wayland
+export GDK_BACKEND=wayland,x11,*
+export GDK_SCALE=1
+
+# XDG specifications
+export XDG_CURRENT_DESKTOP=Hyprland
+export XDG_SESSION_DESKTOP=Hyprland
+export XDG_SESSION_TYPE=wayland
+
+# Qt variables
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
+export QT_SCALE_FACTOR=1
+export QT_QPA_PLATFORM=wayland
+export QT_QPA_PLATFORMTHEME=qt6ct
+export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+export QT_QUICK_CONTROLS_STYLE=org.hyprland.style
+
+# Firefox (Wayland backend)
+export MOZ_ENABLE_WAYLAND=1
+
+# Electron apps & ozone platform
+export ELECTRON_OZONE_PLATFORM_HINT=wayland
+export OZONE_PLATFORM=wayland
+
+# SDL2 apps (uncomment if needed)
+# export SDL_VIDEODRIVER=wayland
