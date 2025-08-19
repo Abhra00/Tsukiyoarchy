@@ -1,0 +1,86 @@
+# ┏┳┓┏┓┳┳┓┏┓┳┓┏┏┓┏┓┳┓┏┓┓┏┓┏  ┳┓┏┳┓┏┓┏┓
+#  ┃ ┗┓┃┃┃┫ ┃┗┫┃┃┣┫┣┫┃ ┣┫┗┫━━┣┫ ┃ ┃┃┃┃
+#  ┻ ┗┛┗┛┛┗┛┻┗┛┗┛┛┗┛┗┗┛┛┗┗┛  ┻┛ ┻ ┗┛┣┛
+#
+
+# Btop theme template for pywal
+
+# Main background, empty for terminal default
+theme[main_bg]="{background}"
+
+# Main text color
+theme[main_fg]="{foreground}"
+
+# Title color for boxes
+theme[title]="{color10}"
+
+# Highlight color for keyboard shortcuts
+theme[hi_fg]="{color11}"
+
+# Background color of selected item in processes box
+theme[selected_bg]="{color12}"
+
+# Foreground color of selected item in processes box
+theme[selected_fg]="{color13}"
+
+# Color of inactive/disabled text
+theme[inactive_fg]="{color8}"
+
+# Misc colors for processes box including mini cpu graphs, details memory graph and details status text
+theme[proc_misc]="{color11}"
+
+# Cpu box outline color
+theme[cpu_box]="{color10}"
+
+# Memory/disks box outline color
+theme[mem_box]="{color10}"
+
+# Net up/down box outline color
+theme[net_box]="{color10}"
+
+# Processes box outline color
+theme[proc_box]="{color10}"
+
+# Box divider line and small boxes line color
+theme[div_line]="{color10}"
+
+# Temperature graph colors
+theme[temp_start]="{color10}"
+theme[temp_mid]="{color11}"
+theme[temp_end]="{color12}"
+
+# CPU graph colors
+theme[cpu_start]="{color10}"
+theme[cpu_mid]="{color11}"
+theme[cpu_end]="{color12}"
+
+# Mem/Disk free meter
+theme[free_start]="{color10}"
+theme[free_mid]="{color11}"
+theme[free_end]="{color12}"
+
+# Mem/Disk cached meter
+theme[cached_start]="{color10}"
+theme[cached_mid]="{color11}"
+theme[cached_end]="{color12}"
+
+# Mem/Disk available meter
+theme[available_start]="{color10}"
+theme[available_mid]="{color11}"
+theme[available_end]="{color12}"
+
+# Mem/Disk used meter
+theme[used_start]="{color10}"
+theme[used_mid]="{color11}"
+theme[used_end]="{color12}"
+
+# Download graph colors
+theme[download_start]="{color10}"
+theme[download_mid]="{color11}"
+theme[download_end]="{color12}"
+
+# Upload graph colors
+theme[upload_start]="{color10}"
+theme[upload_mid]="{color11}"
+theme[upload_end]="{color12}"
+

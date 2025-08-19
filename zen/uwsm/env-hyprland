@@ -1,0 +1,27 @@
+#  ┏┓┳┓┓┏  ┓┏┓┏┏┓┳┓┓ ┏┓┳┓┳┓
+#  ┣ ┃┃┃┃━━┣┫┗┫┃┃┣┫┃ ┣┫┃┃┃┃
+#  ┗┛┛┗┗┛  ┛┗┗┛┣┛┛┗┗┛┛┗┛┗┻┛
+#                          
+
+
+
+# Hyprland-specific or recommended Wayland variables
+# Uncomment as needed for your GPU or VM configuration
+
+# export WLR_NO_HARDWARE_CURSORS=1
+# export LIBVA_DRIVER_NAME=nvidia
+# export __GLX_VENDOR_LIBRARY_NAME=nvidia
+# export GBM_BACKEND=nvidia-drm
+
+# export __NV_PRIME_RENDER_OFFLOAD=1
+# export __VK_LAYER_NV_optimus=NVIDIA_only
+# export WLR_DRM_NO_ATOMIC=1
+# export NVD_BACKEND=direct
+
+# For VM or fallback rendering
+# export WLR_RENDERER_ALLOW_SOFTWARE=1
+
+# For Firefox hardware acceleration with NVIDIA (optional)
+# export MOZ_DISABLE_RDD_SANDBOX=1
+# export EGL_PLATFORM=wayland
+
