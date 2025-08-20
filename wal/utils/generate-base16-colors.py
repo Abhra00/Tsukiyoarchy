@@ -1,11 +1,17 @@
+#    ┳┓┏┓┏┓┏┓┓┏┓ ┏┓┏┓┓ ┏┓┳┓  ┏┓┏┓┳┓┏┓┳┓┏┓┏┳┓┏┓┳┓
+#    ┣┫┣┫┗┓┣ ┃┣┓ ┃ ┃┃┃ ┃┃┣┫━━┃┓┣ ┃┃┣ ┣┫┣┫ ┃ ┃┃┣┫
+#    ┻┛┛┗┗┛┗┛┻┗┛━┗┛┗┛┗┛┗┛┛┗  ┗┛┗┛┛┗┗┛┛┗┛┗ ┻ ┗┛┛┗
+#
+
 import json
 import os
+import colorsys
 
 # ---- Color utilities ----
 
 def hex_to_rgb(hex_color):
     hex_color = hex_color.lstrip("#")
-    return tuple(int(hex_color[i:i+2], 16) for i in (0, 2 ,4))
+    return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
 
 def rgb_to_hex(rgb):
     return "#{:02x}{:02x}{:02x}".format(*rgb)
@@ -38,6 +44,18 @@ def get_luminance(color):
     r, g, b = hex_to_rgb(color)
     return 0.2126 * r + 0.7152 * g + 0.0722 * b
 
+# ---- HSL utilities ----
+
+def hex_to_hsl(hex_color):
+    r, g, b = [x / 255.0 for x in hex_to_rgb(hex_color)]
+    h, l, s = colorsys.rgb_to_hls(r, g, b)  # HLS: h=[0-1], l, s
+    return h * 360, s, l
+
+def hsl_to_hex(h, s, l):
+    h = (h % 360) / 360.0
+    r, g, b = colorsys.hls_to_rgb(h, l, s)
+    return rgb_to_hex((int(r * 255), int(g * 255), int(b * 255)))
+
 # ---- Load JSON ----
 
 home = os.path.expanduser("~")
@@ -67,13 +85,41 @@ base05 = shade(fg, 0.00)
 base06 = shade(fg, 0.05)
 base07 = shade(fg, 0.00)
 
-# Blend brown for base0F & orange for base09
-brown = "#a0522d"
-base0F = blend(fg, brown, 0.6)
-orange = "#d65d0e"
-base09 = blend(fg, orange, 0.6)
+# ---- Warm colors generation ----
+bright_colors = [
+    data["colors"]["color9"],
+    data["colors"]["color10"],
+    data["colors"]["color11"],
+    data["colors"]["color12"],
+    data["colors"]["color13"],
+    data["colors"]["color14"],
+    data["colors"]["color15"],
+]
 
-# Build Lua base16 table
+bright_hsl = [hex_to_hsl(c) for c in bright_colors]
+
+# Find warm hues (20°–60° = orange/yellow)
+warm_candidates = [(h, s, l) for (h, s, l) in bright_hsl if 20 <= h <= 60]
+
+if warm_candidates:
+    h, s, l = warm_candidates[0]
+    candidate_orange = hsl_to_hex(h, min(s + 0.2, 1.0), min(l + 0.1, 1.0))
+    candidate_brown  = hsl_to_hex(h, max(s - 0.3, 0.0), max(l - 0.3, 0.0))
+else:
+    # fallback from magenta
+    h, s, l = hex_to_hsl(data["colors"]["color13"])
+    candidate_orange = hsl_to_hex(h - 60, min(s + 0.2, 1.0), min(l + 0.1, 1.0))
+    candidate_brown  = hsl_to_hex(h - 70, max(s - 0.3, 0.0), max(l - 0.3, 0.0))
+
+# Raw reference warm colors
+raw_orange = "#d65d0e"
+raw_brown = "#a0522d"
+
+# Final: blend candidate with raw (to "pop" but still fit scheme)
+base09 = blend(candidate_orange, raw_orange, 0.4)  # Orange
+base0F = blend(candidate_brown,  raw_brown,  0.4)  # Brown
+
+# ---- Build Lua base16 table ----
 lua_colors = {
     "base00": base00,
     "base01": base01,
@@ -108,4 +154,3 @@ with open(output_path, "w") as f:
     f.write("}\n")
 
 print(f"✅ Lua theme written to: {output_path}")
-
