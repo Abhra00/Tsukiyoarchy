@@ -56,7 +56,7 @@ selection=$(
     find "$WALL_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" -o -iname "*.gif" \) |
         sort |
         fzf --ansi \
-            --border=sharp \
+            --border=none \
             --layout=reverse \
             --height=100% \
             --preview 'bash -c "preview_func {}"' \
@@ -103,5 +103,5 @@ if [[ -n "$selection" ]]; then
     "$SCRIPTS_DIR/magic.sh" "✨ WallMagick ✨"
 else
     say "❌ No wallpaper selected ❌" "$WARN"
-    notify-send "Wallselect" "❌ No wallpaper selected" -i $HOME/.config/swaync/icons/bell.png
+    notify-send -e -h string:x-canonical-private-synchronous:wallselect_no "Wallselect" "❌ No wallpaper selected" -i $HOME/.config/swaync/icons/bell.png
 fi

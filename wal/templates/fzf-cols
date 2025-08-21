@@ -8,9 +8,9 @@
 # Special
 background='{background}'
 background0='{background}'
-background1='#{background.lighten(1%)}'
-background2='#{background.lighten(3%)}'
-background3='#{background.lighten(5%)}'
+background1='#{background.lighten(5%)}'
+background2='#{background.lighten(10%)}'
+background3='#{background.lighten(15%)}'
 foreground='{foreground}'
 cursor='{cursor}'
 color10l='#{color10.lighten(5%)}'
