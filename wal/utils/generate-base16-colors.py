@@ -6,6 +6,7 @@
 import json
 import os
 import colorsys
+import random
 
 # ---- Color utilities ----
 
@@ -44,18 +45,6 @@ def get_luminance(color):
     r, g, b = hex_to_rgb(color)
     return 0.2126 * r + 0.7152 * g + 0.0722 * b
 
-# ---- HSL utilities ----
-
-def hex_to_hsl(hex_color):
-    r, g, b = [x / 255.0 for x in hex_to_rgb(hex_color)]
-    h, l, s = colorsys.rgb_to_hls(r, g, b)  # HLS: h=[0-1], l, s
-    return h * 360, s, l
-
-def hsl_to_hex(h, s, l):
-    h = (h % 360) / 360.0
-    r, g, b = colorsys.hls_to_rgb(h, l, s)
-    return rgb_to_hex((int(r * 255), int(g * 255), int(b * 255)))
-
 # ---- Load JSON ----
 
 home = os.path.expanduser("~")
@@ -72,10 +61,10 @@ bg_lum = get_luminance(bg)
 fg_lum = get_luminance(fg)
 theme_is_light = bg_lum > fg_lum
 
-# Shading function to use
+# ---- Shade function ----
 shade = darken if theme_is_light else lighten
 
-# Shade base00 - base07 using background and foreground
+# ---- Base00 to Base07 (UI shades) ----
 base00 = shade(bg, 0.00)
 base01 = shade(bg, 0.05)
 base02 = shade(bg, 0.10)
@@ -85,39 +74,26 @@ base05 = shade(fg, 0.00)
 base06 = shade(fg, 0.05)
 base07 = shade(fg, 0.00)
 
-# ---- Warm colors generation ----
-bright_colors = [
+# ---- Get color9 to color14 ----
+theme_colors = [
     data["colors"]["color9"],
     data["colors"]["color10"],
     data["colors"]["color11"],
     data["colors"]["color12"],
     data["colors"]["color13"],
     data["colors"]["color14"],
-    data["colors"]["color15"],
 ]
 
-bright_hsl = [hex_to_hsl(c) for c in bright_colors]
+# ---- Randomly blend for base09 and base0F ----
 
-# Find warm hues (20°–60° = orange/yellow)
-warm_candidates = [(h, s, l) for (h, s, l) in bright_hsl if 20 <= h <= 60]
+def random_blend(color_list, lighten_amount=0.0):
+    c1, c2 = random.sample(color_list, 2)
+    ratio = random.uniform(0.3, 0.7)
+    result = blend(c1, c2, ratio)
+    return lighten(result, lighten_amount) if lighten_amount > 0 else result
 
-if warm_candidates:
-    h, s, l = warm_candidates[0]
-    candidate_orange = hsl_to_hex(h, min(s + 0.2, 1.0), min(l + 0.1, 1.0))
-    candidate_brown  = hsl_to_hex(h, max(s - 0.3, 0.0), max(l - 0.3, 0.0))
-else:
-    # fallback from magenta
-    h, s, l = hex_to_hsl(data["colors"]["color13"])
-    candidate_orange = hsl_to_hex(h - 60, min(s + 0.2, 1.0), min(l + 0.1, 1.0))
-    candidate_brown  = hsl_to_hex(h - 70, max(s - 0.3, 0.0), max(l - 0.3, 0.0))
-
-# Raw reference warm colors
-raw_orange = "#d65d0e"
-raw_brown = "#a0522d"
-
-# Final: blend candidate with raw (to "pop" but still fit scheme)
-base09 = blend(candidate_orange, raw_orange, 0.4)  # Orange
-base0F = blend(candidate_brown,  raw_brown,  0.4)  # Brown
+base09 = random_blend(theme_colors, lighten_amount=0.1)
+base0F = random_blend(theme_colors, lighten_amount=0.1)
 
 # ---- Build Lua base16 table ----
 lua_colors = {
@@ -140,12 +116,7 @@ lua_colors = {
 }
 
 # ---- Write Lua file ----
-
 with open(output_path, "w") as f:
-    f.write("--  ┏┓┓┏┓ ┏┏┓┓   ┳┓┏┓┏┓┏┓┓┏┓  ┳┓┓┏┳┳┳┓  ┏┓┏┓┓ ┏┓┳┓┏┓\n")
-    f.write("--  ┃┃┗┫┃┃┃┣┫┃ ━━┣┫┣┫┗┓┣ ┃┣┓━━┃┃┃┃┃┃┃┃━━┃ ┃┃┃ ┃┃┣┫┗┓\n")
-    f.write("--  ┣┛┗┛┗┻┛┛┗┗┛  ┻┛┛┗┗┛┗┛┻┗┛  ┛┗┗┛┻┛ ┗  ┗┛┗┛┗┛┗┛┛┗┗┛\n")
-    f.write("--                                                  \n\n")
     f.write("-- stylua: ignore\n")
     f.write(f"-- Detected as {'light' if theme_is_light else 'dark'} theme\n")
     f.write("return {\n")
