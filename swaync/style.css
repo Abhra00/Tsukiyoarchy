@@ -368,6 +368,10 @@ scrollbar slider {
   font-weight: 700;
 }
 
+.widget-title > button:hover {
+  color: var(--priority-critical);
+}
+
 /* Common widget styles */
 .widget-dnd,
 .widget-label,
