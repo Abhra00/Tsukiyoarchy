@@ -18,7 +18,6 @@
 
 /* Global */
 * {
-  all: unset;
   font-family: "Iosevka Nerd Font Propo";
   font-size: 11pt;
   font-weight: 500;
@@ -167,6 +166,7 @@ window#waybar {
 }
 
 #workspaces button.active:hover,
+#custom-swaync:hover,
 #network.icon:hover,
 #wireplumber.icon:hover,
 #custom-exit:hover,
@@ -174,7 +174,7 @@ window#waybar {
 #custom-suspend:hover,
 #custom-reboot:hover,
 #custom-power:hover {
-  background: lighter(@blue);
+  background: shade(@blue, 0.7);
 }
 
 #workspaces button.urgent:hover label,
