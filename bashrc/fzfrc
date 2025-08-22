@@ -11,8 +11,9 @@ export FZF_DEFAULT_OPTS="
   --color=border:$background1,preview-bg:$background1 \
   --color='scrollbar:$background3,gutter:$background1' \
   --color='bg+:$background3,fg+:$foreground,spinner:$color10' \
-  --color='pointer:$color5,marker:$color1' \
-  --color='info:$color6,bg:$background0' \
+  --color='pointer:$color13,marker:$color9' \
+  --color='prompt:$color12:bold' \
+  --color='info:$color12,bg:$background0' \
   --scrollbar='░' \
   --border='none' \
   --separator='▓' \
@@ -21,7 +22,7 @@ export FZF_DEFAULT_OPTS="
   --prompt='  ' \
   --pointer='██' \
   --layout=reverse \
-  --bind='ctrl-v:execute(nvim {}),shift-up:preview-page-up,shift-down:preview-page-down' \
+  --bind='ctrl-v:execute(xdg-open {}),shift-up:preview-page-up,shift-down:preview-page-down' \
   --cycle \
   --height=40"
 
