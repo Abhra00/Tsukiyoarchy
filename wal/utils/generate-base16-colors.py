@@ -2,13 +2,15 @@
 #    ┣┫┣┫┗┓┣ ┃┣┓ ┃ ┃┃┃ ┃┃┣┫━━┃┓┣ ┃┃┣ ┣┫┣┫ ┃ ┃┃┣┫
 #    ┻┛┛┗┗┛┗┛┻┗┛━┗┛┗┛┗┛┗┛┛┗  ┗┛┗┛┛┗┗┛┛┗┛┗ ┻ ┗┛┛┗
 #
+# Dependencies:
+# Only Python standard library
 
 import json
 import os
-import colorsys
 import random
+import colorsys
 
-# ---- Color utilities ----
+# ---- Color Utilities ----
 
 def hex_to_rgb(hex_color):
     hex_color = hex_color.lstrip("#")
@@ -16,16 +18,6 @@ def hex_to_rgb(hex_color):
 
 def rgb_to_hex(rgb):
     return "#{:02x}{:02x}{:02x}".format(*rgb)
-
-def blend(color1, color2, ratio=0.5):
-    r1, g1, b1 = hex_to_rgb(color1)
-    r2, g2, b2 = hex_to_rgb(color2)
-    blended = (
-        int(r1 * (1 - ratio) + r2 * ratio),
-        int(g1 * (1 - ratio) + g2 * ratio),
-        int(b1 * (1 - ratio) + b2 * ratio),
-    )
-    return rgb_to_hex(blended)
 
 def lighten(color, amount=0.1):
     r, g, b = hex_to_rgb(color)
@@ -45,7 +37,17 @@ def get_luminance(color):
     r, g, b = hex_to_rgb(color)
     return 0.2126 * r + 0.7152 * g + 0.0722 * b
 
-# ---- Load JSON ----
+# ---- HLS-based Hue Shift (lightweight alternative to LCHab) ----
+def hls_shift_from_theme(base_hex, target_hue_deg, reference_hex):
+    """Use reference color's saturation/lightness, only change hue."""
+    ref_r, ref_g, ref_b = [x / 255.0 for x in hex_to_rgb(reference_hex)]
+    _, l, s = colorsys.rgb_to_hls(ref_r, ref_g, ref_b)
+
+    h_new = target_hue_deg / 360.0
+    r_new, g_new, b_new = colorsys.hls_to_rgb(h_new, l, s)
+    return rgb_to_hex((int(r_new * 255), int(g_new * 255), int(b_new * 255)))
+
+# ---- Load Theme JSON ----
 
 home = os.path.expanduser("~")
 input_path = os.path.join(home, ".cache", "wal", "colors.json")
@@ -61,10 +63,10 @@ bg_lum = get_luminance(bg)
 fg_lum = get_luminance(fg)
 theme_is_light = bg_lum > fg_lum
 
-# ---- Shade function ----
+# ---- Shade base00 - base07 ----
+
 shade = darken if theme_is_light else lighten
 
-# ---- Base00 to Base07 (UI shades) ----
 base00 = shade(bg, 0.00)
 base01 = shade(bg, 0.05)
 base02 = shade(bg, 0.10)
@@ -74,28 +76,14 @@ base05 = shade(fg, 0.00)
 base06 = shade(fg, 0.05)
 base07 = shade(fg, 0.00)
 
-# ---- Get color9 to color14 ----
-theme_colors = [
-    data["colors"]["color9"],
-    data["colors"]["color10"],
-    data["colors"]["color11"],
-    data["colors"]["color12"],
-    data["colors"]["color13"],
-    data["colors"]["color14"],
-]
+# ---- Generate Harmonious Orange and Peach ----
+reference_color = data["colors"]["color10"]  # bright red
+base09 = hls_shift_from_theme(bg, 30, reference_color)  # orange
+base0F = hls_shift_from_theme(bg, 20, reference_color)  # peach
 
-# ---- Randomly blend for base09 and base0F ----
 
-def random_blend(color_list, lighten_amount=0.0):
-    c1, c2 = random.sample(color_list, 2)
-    ratio = random.uniform(0.3, 0.7)
-    result = blend(c1, c2, ratio)
-    return lighten(result, lighten_amount) if lighten_amount > 0 else result
+# ---- Base08 to Base0E from theme ----
 
-base09 = random_blend(theme_colors, lighten_amount=0.1)
-base0F = random_blend(theme_colors, lighten_amount=0.1)
-
-# ---- Build Lua base16 table ----
 lua_colors = {
     "base00": base00,
     "base01": base01,
@@ -105,17 +93,18 @@ lua_colors = {
     "base05": base05,
     "base06": base06,
     "base07": base07,
-    "base08": data["colors"]["color9"],
-    "base09": base09,
-    "base0A": data["colors"]["color11"],
-    "base0B": data["colors"]["color10"],
-    "base0C": data["colors"]["color14"],
-    "base0D": data["colors"]["color12"],
-    "base0E": data["colors"]["color13"],
-    "base0F": base0F,
+    "base08": data["colors"]["color9"],   # red
+    "base09": base09,                     # orange
+    "base0A": data["colors"]["color11"],  # yellow
+    "base0B": data["colors"]["color10"],  # green
+    "base0C": data["colors"]["color14"],  # cyan
+    "base0D": data["colors"]["color12"],  # blue
+    "base0E": data["colors"]["color13"],  # magenta
+    "base0F": base0F,                     # peach
 }
 
-# ---- Write Lua file ----
+# ---- Write Lua Output ----
+
 with open(output_path, "w") as f:
     f.write("-- stylua: ignore\n")
     f.write(f"-- Detected as {'light' if theme_is_light else 'dark'} theme\n")
