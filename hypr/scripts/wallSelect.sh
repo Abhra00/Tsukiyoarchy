@@ -57,6 +57,10 @@ selection=$(
         sort |
         fzf --ansi \
             --border=none \
+            --header="            ✨WALLSELECT✨" \
+            --header-border=sharp \
+            --header-first \
+            --color=header:$color13:bold \
             --layout=reverse \
             --height=100% \
             --preview 'bash -c "preview_func {}"' \
