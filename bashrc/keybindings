@@ -4,4 +4,4 @@
 #
 
 # Bind Ctrl+O to the 'yazicd' function
-bind -x '"\C-o":yazicd'
+bind '"\C-o":"yazicd\n"'
