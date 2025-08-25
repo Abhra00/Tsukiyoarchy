@@ -7,6 +7,9 @@
 # Update pywalfox colors
 pywalfox update
 
+# Generate terminal color sequences
+python3 "$HOME/.config/wal/utils/generate-sequences.py"
+
 # Export colors.env for waybar
 jq -r '.colors | to_entries[] | "export COLOR\(.key[5:])=\(.value)"' "$HOME/.cache/wal/colors.json" >"$HOME/.config/waybar/colors.env"
 jq -r '.special | to_entries[] | "export \(.key | gsub("-"; "_") | ascii_upcase)=\(.value)"' "$HOME/.cache/wal/colors.json" >>"$HOME/.config/waybar/colors.env"
