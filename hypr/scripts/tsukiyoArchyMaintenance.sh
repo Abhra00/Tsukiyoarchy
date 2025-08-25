@@ -18,5 +18,5 @@ case "$choice" in
 *Sysmaintenance\ +\ Update*) hyprctl dispatch exec '[float]' "uwsm app -- $TERMINAL sh -c '$scriptDir/sysmaintenance.sh --upgrade'" ;;
 *Sysmaintenance*) hyprctl dispatch exec '[float]' "uwsm app -- $TERMINAL sh -c '$scriptDir/sysmaintenance.sh'" ;;
 *Wipe*) walker -u && notify-send "Cleared clipboard history" -i "$HOME/.config/swaync/icons/bell.png" ;;
-*) notify-send -e -h string:x-canonical-private-synchronous:sysmenu "WallandMaintainance" "Nothing selected" -i "$HOME/.config/swaync/icons/bell.png" ;;
+*) notify-send -e -h string:x-canonical-private-synchronous:sysmenu "TsukiyoarchyMaintainance" "Nothing selected" -i "$HOME/.config/swaync/icons/bell.png" ;;
 esac
