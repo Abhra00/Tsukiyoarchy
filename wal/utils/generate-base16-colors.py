@@ -1,15 +1,18 @@
+#!/usr/bin/env python3
+
 #    ┳┓┏┓┏┓┏┓┓┏┓ ┏┓┏┓┓ ┏┓┳┓  ┏┓┏┓┳┓┏┓┳┓┏┓┏┳┓┏┓┳┓
 #    ┣┫┣┫┗┓┣ ┃┣┓ ┃ ┃┃┃ ┃┃┣┫━━┃┓┣ ┃┃┣ ┣┫┣┫ ┃ ┃┃┣┫
 #    ┻┛┛┗┗┛┗┛┻┗┛━┗┛┗┛┗┛┗┛┛┗  ┗┛┗┛┛┗┗┛┛┗┛┗ ┻ ┗┛┛┗
 #
-# Dependencies:
-# Only Python standard library
+# Dependencies: Python 3 standard library only
+# Input:  ~/.cache/wal/colors.json (from pywal)
+# Output: ~/.cache/wal/colors-base16-nvim.lua (Base16 Lua theme for Neovim)
 
 import json
 import os
 import colorsys
 
-# ---- Color Utilities ----
+# ── Color Utilities ──────────────────────────────────────────────────────────────
 
 def hex_to_rgb(hex_color):
     hex_color = hex_color.lstrip("#")
@@ -18,23 +21,19 @@ def hex_to_rgb(hex_color):
 def rgb_to_hex(rgb):
     return "#{:02x}{:02x}{:02x}".format(*rgb)
 
-def lighten(color, amount=0.1):
-    r, g, b = hex_to_rgb(color)
+def lighten(hex_color, amount=0.1):
+    r, g, b = hex_to_rgb(hex_color)
     r = min(int(r + (255 - r) * amount), 255)
     g = min(int(g + (255 - g) * amount), 255)
     b = min(int(b + (255 - b) * amount), 255)
     return rgb_to_hex((r, g, b))
 
-def darken(color, amount=0.1):
-    r, g, b = hex_to_rgb(color)
+def darken(hex_color, amount=0.1):
+    r, g, b = hex_to_rgb(hex_color)
     r = max(int(r * (1 - amount)), 0)
     g = max(int(g * (1 - amount)), 0)
     b = max(int(b * (1 - amount)), 0)
     return rgb_to_hex((r, g, b))
-
-def get_luminance(color):
-    r, g, b = hex_to_rgb(color)
-    return 0.2126 * r + 0.7152 * g + 0.0722 * b
 
 def shift_hue(hex_color, degrees):
     r, g, b = [x / 255.0 for x in hex_to_rgb(hex_color)]
@@ -43,7 +42,11 @@ def shift_hue(hex_color, degrees):
     r_new, g_new, b_new = colorsys.hls_to_rgb(h, l, s)
     return rgb_to_hex((int(r_new * 255), int(g_new * 255), int(b_new * 255)))
 
-# ---- Load Theme JSON ----
+def get_luminance(hex_color):
+    r, g, b = hex_to_rgb(hex_color)
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+# ── Load pywal Colors ────────────────────────────────────────────────────────────
 
 home = os.path.expanduser("~")
 input_path = os.path.join(home, ".cache", "wal", "colors.json")
@@ -55,29 +58,44 @@ with open(input_path, "r") as f:
 bg = data["special"]["background"]
 fg = data["special"]["foreground"]
 
-bg_lum = get_luminance(bg)
-fg_lum = get_luminance(fg)
-theme_is_light = bg_lum > fg_lum
+# ── Theme Brightness ─────────────────────────────────────────────────────────────
 
-# ---- Shade base00 - base07 ----
+theme_is_light = get_luminance(bg) > get_luminance(fg)
 
-shade = darken if theme_is_light else lighten
+# ── Base00 - Base03: Background Shades ───────────────────────────────────────────
 
-base00 = shade(bg, 0.00)
-base01 = shade(bg, 0.05)
-base02 = shade(bg, 0.10)
-base03 = shade(bg, 0.20)
-base04 = shade(fg, 0.30)
-base05 = shade(fg, 0.00)
-base06 = shade(fg, 0.05)
-base07 = shade(fg, 0.00)
+shadebg = darken if theme_is_light else lighten
 
-# ---- Generate Slightly Hue-Shifted Red and Magenta ----
+base00 = shadebg(bg, 0.00)  # background
+base01 = shadebg(bg, 0.05)  # lighter background
+base02 = shadebg(bg, 0.10)  # selection background
+base03 = shadebg(bg, 0.20)  # comments, invisibles
 
-base09 = shift_hue(data["colors"]["color9"], 15)   # Shift red hue by +15 degrees
-base0F = shift_hue(data["colors"]["color13"], -15) # Shift magenta hue by -15 degrees
+# ── Base04 - Base07: Foreground Shades (Proper Gradation) ────────────────────────
 
-# ---- Base08 to Base0E from theme ----
+if theme_is_light:
+    base04 = lighten(fg, 0.15)  # UI text / subtle fg
+    base05 = fg                 # main foreground
+    base06 = darken(fg, 0.15)   # bold fg
+    base07 = darken(fg, 0.30)   # headings / strong contrast
+else:
+    base04 = darken(fg, 0.15)   # UI text / subtle fg
+    base05 = fg                 # main foreground
+    base06 = lighten(fg, 0.15)  # bold fg
+    base07 = lighten(fg, 0.30)  # headings / strong contrast
+
+# ── Base08 - Base0F: Accent Hues from pywal ──────────────────────────────────────
+
+base08 = data["colors"]["color9"]   # red
+base09 = shift_hue(base08, 15)      # orange (shifted red)
+base0A = data["colors"]["color11"]  # yellow
+base0B = data["colors"]["color10"]  # green
+base0C = data["colors"]["color14"]  # cyan
+base0D = data["colors"]["color12"]  # blue
+base0E = data["colors"]["color13"]  # magenta
+base0F = shift_hue(base0E, -15)     # special / fallback
+
+# ── Compose Final Lua Table ──────────────────────────────────────────────────────
 
 lua_colors = {
     "base00": base00,
@@ -88,24 +106,24 @@ lua_colors = {
     "base05": base05,
     "base06": base06,
     "base07": base07,
-    "base08": data["colors"]["color9"],    # red (original)
-    "base09": base09,                      # shifted red
-    "base0A": data["colors"]["color11"],  # yellow
-    "base0B": data["colors"]["color10"],  # green
-    "base0C": data["colors"]["color14"],  # cyan
-    "base0D": data["colors"]["color12"],  # blue
-    "base0E": data["colors"]["color13"],  # magenta (original)
-    "base0F": base0F,                      # shifted magenta
+    "base08": base08,
+    "base09": base09,
+    "base0A": base0A,
+    "base0B": base0B,
+    "base0C": base0C,
+    "base0D": base0D,
+    "base0E": base0E,
+    "base0F": base0F,
 }
 
-# ---- Write Lua Output ----
+# ── Write Lua Theme File ─────────────────────────────────────────────────────────
 
 with open(output_path, "w") as f:
     f.write("-- stylua: ignore\n")
     f.write(f"-- Detected as {'light' if theme_is_light else 'dark'} theme\n")
     f.write("return {\n")
-    for key, value in lua_colors.items():
-        f.write(f"  {key} = \"{value}\",\n")
+    for key in sorted(lua_colors):
+        f.write(f"  {key} = \"{lua_colors[key]}\",\n")
     f.write("}\n")
 
-print(f"✅ Lua theme written to: {output_path}")
+print(f"✅ Lua Base16 theme written to: {output_path}")
