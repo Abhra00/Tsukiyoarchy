@@ -1,0 +1,213 @@
+#    ┏┓┏┳┓┏┓┳┓┏┓┓┏┳┏┓
+#    ┗┓ ┃ ┣┫┣┫┗┓┣┫┃┃┃
+#    ┗┛ ┻ ┛┗┛┗┗┛┛┗┻┣┛
+#    TSUKIYOSHIP ( A Minimalistic Starship Prompt )
+
+command_timeout = 200
+scan_timeout = 10
+add_newline = true
+format = "$directory$git_branch$git_metrics$git_commit$git_state$git_status$all"
+
+[line_break]
+disabled = true
+
+[character]
+success_symbol = "[λ](bold bright-green)"
+error_symbol = "[λ](bold bright-red)"
+vimcmd_symbol = "[λ](bold bright-green)"
+
+[directory]
+home_symbol = "home"
+style = "bright-blue"
+read_only = " ro"
+truncation_length = 2
+truncation_symbol = "…/"
+repo_root_style = "bright-cyan"
+repo_root_format = "[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style) "
+
+[jobs]
+style = "bright-purple"
+
+[git_commit]
+tag_symbol = " tag "
+
+[git_branch]
+style = "bright-purple"
+symbol = ""
+
+[git_metrics]
+added_style = "bold bright-yellow"
+deleted_style = "bold bright-red"
+disabled = false
+
+[aws]
+symbol = "aws "
+style = "bright-yellow"
+
+[bun]
+symbol = "bun "
+style = "bright-green"
+
+[c]
+symbol = "C "
+style = "bright-blue"
+
+[cobol]
+symbol = "cobol "
+style = "bright-magenta"
+
+[conda]
+symbol = "conda "
+style = "bright-green"
+
+[crystal]
+symbol = "cr "
+style = "bright-cyan"
+
+[cmake]
+symbol = "cmake "
+style = "bright-blue"
+
+[daml]
+symbol = "daml "
+style = "bright-yellow"
+
+[dart]
+symbol = "dart "
+style = "bright-cyan"
+
+[deno]
+symbol = "deno "
+style = "bright-white"
+
+[dotnet]
+symbol = ".NET "
+style = "bright-purple"
+
+[docker_context]
+symbol = "docker "
+style = "bright-blue"
+
+[elixir]
+symbol = "exs "
+style = "bright-magenta"
+
+[elm]
+symbol = "elm "
+style = "bright-green"
+
+[golang]
+symbol = "go "
+style = "bright-cyan"
+
+[guix_shell]
+symbol = "guix "
+style = "bright-green"
+
+[hg_branch]
+symbol = "hg "
+style = "bright-yellow"
+
+[java]
+symbol = "java "
+style = "bright-red"
+
+[julia]
+symbol = "jl "
+style = "bright-blue"
+
+[kotlin]
+symbol = "kt "
+style = "bright-magenta"
+
+[lua]
+symbol = "lua "
+style = "bright-blue"
+
+[memory_usage]
+symbol = "memory "
+style = "bright-red"
+
+[meson]
+symbol = "meson "
+style = "bright-yellow"
+
+[nim]
+symbol = "nim "
+style = "bright-yellow"
+
+[nix_shell]
+symbol = "nix "
+style = "bright-blue"
+
+[ocaml]
+symbol = "ml "
+style = "bright-yellow"
+
+[opa]
+symbol = "opa "
+style = "bright-blue"
+
+[nodejs]
+symbol = "nodejs "
+style = "bright-green"
+
+[package]
+symbol = "pkg "
+style = "bright-yellow"
+
+[perl]
+symbol = "pl "
+style = "bright-magenta"
+
+[php]
+symbol = "php "
+style = "bright-blue"
+
+[pulumi]
+symbol = "pulumi "
+style = "bright-cyan"
+
+[purescript]
+symbol = "purs "
+style = "bright-blue"
+
+[python]
+symbol = "py "
+style = "bright-yellow"
+
+[raku]
+symbol = "raku "
+style = "bright-magenta"
+
+[ruby]
+symbol = "rb "
+style = "bright-red"
+
+[rust]
+symbol = "rs "
+style = "bright-red"
+
+[scala]
+symbol = "scala "
+style = "bright-red"
+
+[spack]
+symbol = "spack "
+style = "bright-green"
+
+[sudo]
+symbol = "sudo "
+style = "bright-red"
+
+[swift]
+symbol = "swift "
+style = "bright-orange"
+
+[terraform]
+symbol = "terraform "
+style = "bright-purple"
+
+[zig]
+symbol = "zig "
+style = "bright-yellow"
