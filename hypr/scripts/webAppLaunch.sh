@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+#    ┓ ┏┏┓┳┓  ┏┓┏┓┏┓  ┓ ┏┓┳┳┳┓┏┓┓┏
+#    ┃┃┃┣ ┣┫━━┣┫┃┃┃┃━━┃ ┣┫┃┃┃┃┃ ┣┫
+#    ┗┻┛┗┛┻┛  ┛┗┣┛┣┛  ┗┛┛┗┗┛┛┗┗┛┛┗
+#
 # Credit https://github.com/basecamp/omarchy/ (Thanks)
 
 browser=$(xdg-settings get default-web-browser)
