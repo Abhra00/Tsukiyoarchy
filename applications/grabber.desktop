@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Wallpaper Grabber
+Exec=/home/bugs/.local/share/applications/Appimages/Grabber_v7.13.0-x86_64.AppImage
+Icon=/home/bugs/.local/share/applications/icons/grabber.png
+Type=Application
+Categories=Utility;
+Terminal=false
+
