@@ -1,0 +1,57 @@
+# ┏┓┓┏┓ ┏┏┓┓   ┓ ┏┓┏┓┓┏┏┓┳┏┳┓
+# ┃┃┗┫┃┃┃┣┫┃ ━━┃ ┣┫┏┛┗┫┃┓┃ ┃ 
+# ┣┛┗┛┗┻┛┛┗┗┛  ┗┛┛┗┗┛┗┛┗┛┻ ┻ 
+#
+gui:
+  border: single
+  theme:
+    # Border color of focused window
+    activeBorderColor:
+      - "{color12}"
+      - bold
+
+    # Border color of non-focused windows
+    inactiveBorderColor:
+      - "{foreground}"
+
+    # Border color of focused window when searching in that window
+    searchingActiveBorderColor:
+      - "{color12}"
+      - bold
+
+    # Color of keybindings help text in the bottom line
+    optionsTextColor:
+      - "{color12}"
+
+    # Background color of selected line.
+    # See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#highlighting-the-selected-line
+    selectedLineBgColor:
+      - "#{background.lighten(10%)}"
+
+    # Background color of selected line when view doesn't have focus.
+    inactiveViewSelectedLineBgColor:
+      - bold
+
+    # Foreground color of copied commit
+    cherryPickedCommitFgColor:
+      - "{color12}"
+
+    # Background color of copied commit
+    cherryPickedCommitBgColor:
+      - "{color14}"
+
+    # Foreground color of marked base commit (for rebase)
+    markedBaseCommitFgColor:
+      - "{color12}"
+
+    # Background color of marked base commit (for rebase)
+    markedBaseCommitBgColor:
+      - "{color13}"
+
+    # Color for file with unstaged changes
+    unstagedChangesColor:
+      - "{color9}"
+
+    # Default text color
+    defaultFgColor:
+      - "{color15}"
