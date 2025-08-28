@@ -1,5 +1,5 @@
-#  ┳┳┓┏┓┏┳┓┏┓┳┓┳┏┓┓   ┓┏┏┓┳┳  ┏┳┓┏┓┏┓┓ 
-#  ┃┃┃┣┫ ┃ ┣ ┣┫┃┣┫┃ ━━┗┫┃┃┃┃━━ ┃ ┃┃┃┃┃ 
+#  ┳┳┓┏┓┏┳┓┏┓┳┓┳┏┓┓   ┓┏┏┓┳┳  ┏┳┓┏┓┏┓┓
+#  ┃┃┃┣┫ ┃ ┣ ┣┫┃┣┫┃ ━━┗┫┃┃┃┃━━ ┃ ┃┃┃┃┃
 #  ┛ ┗┛┗ ┻ ┗┛┛┗┻┛┗┗┛  ┗┛┗┛┗┛   ┻ ┗┛┗┛┗┛
 #                                      
 
@@ -8,6 +8,8 @@ import os
 import sys
 import json
 import subprocess
+import signal
+import atexit
 from PIL import Image
 from materialyoucolor.quantize import QuantizeCelebi
 from materialyoucolor.hct import Hct
@@ -78,6 +80,16 @@ def get_colors_from_img(path: str, dark_mode: bool) -> dict[str, str]:
 
     return material_colors
 
+def run_wal_with_nohup(output_path: str, postrun_script: str) -> None:
+    """Run wal command with nohup to survive terminal exit."""
+    try:
+        # Use nohup to ensure command survives terminal exit
+        cmd = f'nohup wal -e -q --theme -f "{output_path}" -o "{postrun_script}" > /dev/null 2>&1 &'
+        os.system(cmd)
+        print("Theme application started in background with nohup...")
+    except Exception as e:
+        print(f"Error running wal with nohup: {e}")
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print(f"Usage: {sys.argv[0]} /path/to/image")
@@ -127,7 +139,10 @@ if __name__ == "__main__":
     with open(output_path, "w") as f:
         json.dump(pywal_colors, f, indent=4)
 
-    # Run wal to apply theme and postrun script
+    print("Colors generated and saved.")
+
+    # Run wal to apply theme and postrun script with nohup
     postrun_script = os.path.expanduser("~/.config/wal/postrun.sh")
-    cmd = f'wal -e -q --theme -f "{output_path}" -o "{postrun_script}"'
-    os.system(cmd)
+    run_wal_with_nohup(output_path, postrun_script)
+
+    print("Theme application completed.")

@@ -28,6 +28,10 @@ setsid uwsm app -- swayosd-server >/dev/null 2>&1 &
 sleep 0.5
 setsid uwsm app -- walker --gapplication-service 2>&1 &
 
+# restart fcitx5 to reflect theme switch
+sleep 0.5
+fcitx5 -r >/dev/null 2>&1 &
+
 # send notification
 notify-send \
     -e -h \
