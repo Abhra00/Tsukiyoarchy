@@ -14,4 +14,4 @@ FLOAT_SIZE="1600 800"
 TITLE="Wallpaper Selector"
 
 # --- Run the floating terminal with wallSelect.sh
-hyprctl dispatch exec "[float; size $FLOAT_SIZE]" "uwsm app -- $TERMINAL --title '$TITLE' bash -c '$WALLSELECT_SCRIPT; echo; read -rp \"Press Enter to close\"'"
+hyprctl dispatch exec "[float; size $FLOAT_SIZE]" "uwsm app -- $TERMINAL --title '$TITLE' bash -c '$WALLSELECT_SCRIPT; echo; gum spin --spinner "moon" --title \"Done! Press any key to close...\" -- bash -c 'read -n 1 -s''"
