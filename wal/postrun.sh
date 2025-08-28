@@ -4,11 +4,12 @@
 #  ┣┛┗┛┗┛ ┻ ┛┗┗┛┛┗  ┣┛┗┛┗┻┛┛┗┗┛
 #
 
-# Update pywalfox colors
-pywalfox update
 
 # Generate terminal color sequences
 python3 "$HOME/.config/wal/utils/generate-sequences.py"
+
+# Generate Chromium colors
+python3 "$HOME/.config/wal/utils/generate-chromium-colors.py"
 
 # Export colors.env for waybar
 jq -r '.colors | to_entries[] | "export COLOR\(.key[5:])=\(.value)"' "$HOME/.cache/wal/colors.json" >"$HOME/.config/waybar/colors.env"
