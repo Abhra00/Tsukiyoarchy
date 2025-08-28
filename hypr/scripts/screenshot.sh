@@ -31,7 +31,7 @@ notify_view() {
     if [[ "$1" == "active" ]]; then
         if [[ -e "${active_window_path}" ]]; then
             "${sDIR}/sounds.sh" --screenshot
-            resp=$(timeout 5 ${notify_cmd_shot_win} "Screenshot of:" " ${active_window_class} Saved.")
+            resp=$(timeout 5 ${notify_cmd_shot_win} "Screenshot of:" "${active_window_class} Saved.")
             case "$resp" in
             action1)
                 uwsm app -- xdg-open "${active_window_path}" &
@@ -41,13 +41,13 @@ notify_view() {
                 ;;
             esac
         else
-            ${notify_cmd_NOT} "Screenshot of:" " ${active_window_class} NOT Saved."
+            ${notify_cmd_NOT} "Screenshot of:" "${active_window_class} NOT Saved."
             "${sDIR}/sounds.sh" --error
         fi
 
     elif [[ "$1" == "satty" ]]; then
         "${sDIR}/sounds.sh" --screenshot
-        resp=$(${notify_cmd_shot} "Screenshot:" " Captured by Satty")
+        resp=$(${notify_cmd_shot} "Screenshot:" "Captured by Satty")
         case "$resp" in
         action1)
             uwsm app -- satty -f - -o ${dir}/${satty_file} <"$tmpfile"
@@ -71,7 +71,7 @@ notify_view() {
                 ;;
             esac
         else
-            ${notify_cmd_NOT} " Screenshot" " NOT Saved"
+            ${notify_cmd_NOT} "Screenshot" "NOT Saved"
             "${sDIR}/sounds.sh" --error
         fi
     fi

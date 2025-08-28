@@ -16,7 +16,7 @@ window {
 }
 
 label {
-    font-family: "Iosevka Nerd Font Propo", monospace;
+    font-family: "CaskaydiaCove Nerd Font Propo", monospace;
     font-size: 11pt;
     color: @foreground;
 }

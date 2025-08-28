@@ -19,9 +19,7 @@
 @define-color cyan @color14;
 
 * {
-    font-family:
-        Iosevka Nerd Font Propo,
-        monospace;
+    font-family: "CaskaydiaCove Nerd Font Propo";
     font-weight: 600;
     font-size: 14px;
 }

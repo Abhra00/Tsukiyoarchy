@@ -156,10 +156,10 @@
         },
         "calendar": {
             "format": {
-                "days": "<span font='Iosevka Nerd Font Propo 12' color='$COLOR7'><b>{}</b></span>",
-                "months": "<span font='Iosevka Nerd Font Propo 12' color='$COLOR5'><b>{}</b></span>",
-                "today": "<span font='Iosevka Nerd Font Propo 12' color='$COLOR13'><b><u>{}</u></b></span>",
-                "weekdays": "<span font='Iosevka Nerd Font Propo 12' color='$COLOR6'><b>{}</b></span>"
+                "days": "<span font='CaskaydiaCove Nerd Font Propo 12' color='$COLOR7'><b>{}</b></span>",
+                "months": "<span font='CaskaydiaCove Nerd Font Propo 12' color='$COLOR5'><b>{}</b></span>",
+                "today": "<span font='CaskaydiaCove Nerd Font Propo 12' color='$COLOR13'><b><u>{}</u></b></span>",
+                "weekdays": "<span font='CaskaydiaCove Nerd Font Propo 12' color='$COLOR6'><b>{}</b></span>"
             },
             "mode": "month",
             "on-scroll": 1
