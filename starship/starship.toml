@@ -12,9 +12,9 @@ format = "$directory$git_branch$git_metrics$git_commit$git_state$git_status$all"
 disabled = true
 
 [character]
-success_symbol = "[λ](bold bright-green)"
-error_symbol = "[λ](bold bright-red)"
-vimcmd_symbol = "[λ](bold bright-green)"
+success_symbol = "[](bright-green)"
+error_symbol = "[](bright-red)"
+vimcmd_symbol = "[](bright-green)"
 
 [directory]
 home_symbol = "home"

@@ -57,7 +57,7 @@ selection=$(
         sort |
         fzf --ansi \
             --border=none \
-            --header="            ✨WALLSELECT✨" \
+            --header="✨WALLSELECT✨" \
             --header-border=sharp \
             --header-first \
             --color=header:$color13:bold \
