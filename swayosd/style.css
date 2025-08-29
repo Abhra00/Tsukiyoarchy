@@ -16,7 +16,7 @@ window {
 }
 
 label {
-    font-family: "CaskaydiaCove Nerd Font Propo", monospace;
+    font-family: "Geist Mono Nerd Font Propo";
     font-size: 11pt;
     color: @foreground;
 }
