@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+#    ┓┏┓┏┓┓┏┳┓┳┳┓┳┓  ┏┓┓┏┏┓┏┓┏┳┓  ┏┓┓┏┏┓┏┓┏┳┓
+#    ┃┫ ┣ ┗┫┣┫┃┃┃┃┃━━┃ ┣┫┣ ┣┫ ┃ ━━┗┓┣┫┣ ┣  ┃ 
+#    ┛┗┛┗┛┗┛┻┛┻┛┗┻┛  ┗┛┛┗┗┛┛┗ ┻   ┗┛┛┗┗┛┗┛ ┻ 
+#
 
 # A script to display Hyprland keybindings defined in your configuration
 # using rofi for an interactive search menu.
