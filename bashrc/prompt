@@ -8,5 +8,5 @@ force_color_prompt=yes
 color_prompt=yes
 
 # Simple prompt
-PS1=$'\[\e[0;92m\]\ueefe \[\e[0m\]'
+PS1=$'\[\e[0;92m\] \u03bb \[\e[0m\]'
 PS1="\[\e]0;\w\a\]$PS1"
