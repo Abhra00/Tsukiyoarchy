@@ -4,108 +4,156 @@
 #  ┗┻┛┛┗┗┛┗┛┗┛┗┛┗┛┗┛┗┛ ┻
 #
 
-# wallselect.sh – wallpaper picker with live preview + hyprpaper integration
-# Author: Abhra Mondal (https://github.com/Abhra00)
-#  NOTE: Dependencies: fzf, kitty (with icat), hyprpaper, pywal, material-you color generation python library, gum
+# Thank you gh0stzk for the script 🤲 means a lot
+# Copyright (C) 2021-2025 gh0stzk <z0mbi3.zk@protonmail.com>
+# Licensed under GPL-3.0 license
 
-# Define variables
-WALL_DIR="$HOME/walls"
-SCRIPTS_DIR="$HOME/.config/hypr/scripts"
-MATERIAL_YOU_SCRIPT="$HOME/.config/wal/material-you-tool/material-you.py"
-THEME_MODE_FILE="$HOME/.local/share/themeMode"
-FZFRC="$HOME/.config/bashrc/fzfrc"
+# WallSelect - Dynamic wallpaper selector with intelligent caching system
+# Features:
+#   ✔ Multi-monitor support with scaling
+#   ✔ Auto-updating menu (add/delete wallpapers without restart)
+#   ✔ Parallel image processing (optimized CPU usage)
+#   ✔ XXHash64 checksum verification for cache integrity
+#   ✔ Orphaned cache detection and cleanup
+#   ✔ Adaptive icon sizing based on screen resolution
+#   ✔ Lockfile system for safe concurrent operations
+#   ✔ Handle gif files separately
+#   ✔ Rofi integration with theme support
+#   ✔ Dynamic theming using pywal
+#
+#
+# Dependencies:
+#   → Core: hyprland, rofi, jq, xxhsum (xxhash)
+#   → Media: hyprpaper, imagemagick
+#   → GNU: findutils, coreutils, bc
 
-# Source custom fzfrc
-source "$FZFRC"
+# Set dir varialable
+wall_dir="$HOME/walls"
+cacheDir="$HOME/.cache/wallcache"
+scriptsDir="$HOME/.config/hypr/scripts"
+themeModeFile="$HOME/.local/share/themeMode"
+materialYouScript="$HOME/.config/wal/material-you-tool/material-you.py"
 
-# Load pywal colors
-ACCENT="$color11"
-ACCENT2="$color13"
-WARN="$color9"
-OK="$color10"
+# Create cache dir if not exists
+[ -d "$cacheDir" ] || mkdir -p "$cacheDir"
 
-# --- Pretty printing helpers ---
+# Get focused monitor
+focused_monitor=$(hyprctl monitors -j | jq -r '.[] | select(.focused) | .name')
 
-say() {
-    gum style --border normal --margin "1 2" --padding "0 1" \
-        --foreground "$2" "$1"
+# Get monitor width and DPI
+monitor_width=$(hyprctl monitors -j | jq -r --arg mon "$focused_monitor" '.[] | select(.name == $mon) | .width')
+scale_factor=$(hyprctl monitors -j | jq -r --arg mon "$focused_monitor" '.[] | select(.name == $mon) | .scale')
+
+# Calculate icon size
+icon_size=$(echo "scale=2; ($monitor_width * 14) / ($scale_factor * 96)" | bc)
+rofi_override="element-icon{size:${icon_size}px;}"
+rofi_command="rofi -i -show -dmenu -theme $HOME/.config/rofi/wallSelect.rasi -theme-str $rofi_override"
+
+# Detect number of cores and set a sensible number of jobs
+get_optimal_jobs() {
+    local cores=$(nproc)
+    ((cores <= 2)) && echo 2 || echo $(((cores > 4) ? 4 : cores - 1))
 }
 
-with_spinner() {
-    gum spin --spinner dot --spinner.foreground "$ACCENT2" --title "$1" -- bash -c "$2"
+PARALLEL_JOBS=$(get_optimal_jobs)
+
+process_image() {
+    local imagen="$1"
+    local nombre_archivo=$(basename "$imagen")
+    local cache_file="${cacheDir}/${nombre_archivo}"
+    local md5_file="${cacheDir}/.${nombre_archivo}.md5"
+    local lock_file="${cacheDir}/.lock_${nombre_archivo}"
+
+    local current_md5=$(xxh64sum "$imagen" | cut -d' ' -f1)
+
+    (
+        flock -x 200
+        if [ ! -f "$cache_file" ] || [ ! -f "$md5_file" ] || [ "$current_md5" != "$(cat "$md5_file" 2>/dev/null)" ]; then
+            magick "$imagen" -resize 500x500^ -gravity center -extent 500x500 "$cache_file"
+            echo "$current_md5" >"$md5_file"
+        fi
+        # Clean the lock file after processing
+        rm -f "$lock_file"
+    ) 200>"$lock_file"
 }
 
-# --- Kitty preview helpers ---
+# Export variables & functions
+export -f process_image
+export wall_dir cacheDir
 
-preview_func() {
-    local img="$1"
-    kitty +kitten icat --clear --stdin=no --transfer-mode=memory
-    kitty +kitten icat \
-        --place "${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@0x0" \
-        --transfer-mode=memory --stdin=no "$img" </dev/null
-}
+# Clean old locks before starting
+rm -f "${cacheDir}"/.lock_* 2>/dev/null || true
 
-unload_all_kitty_images() {
-    kitty +kitten icat --clear
-}
-export -f preview_func unload_all_kitty_images
+# Process files in parallel
+find "$wall_dir" -type f \( -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" -o -name "*.gif" \) -print0 |
+    xargs -0 -P "$PARALLEL_JOBS" -I {} bash -c 'process_image "{}"'
 
-# --- Wallpaper selection with fzf ---
-
-selection=$(
-    find "$WALL_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" -o -iname "*.gif" \) |
-        sort |
-        fzf --ansi \
-            --border=none \
-            --header="✨WALLSELECT✨" \
-            --header-border=sharp \
-            --header-first \
-            --color=header:$color13:bold \
-            --layout=reverse \
-            --height=100% \
-            --preview 'bash -c "preview_func {}"' \
-            --preview-window=right:70% \
-            --prompt="󰸉 Select Wallpaper: " \
-            --bind "ctrl-r:reload(find \"$WALL_DIR\" -type f | sort)"
-)
-
-# --- Apply wallpaper if selected ---
-
-if [[ -n "$selection" ]]; then
-    say "Setting wallpaper" "$ACCENT"
-
-    unload_all_kitty_images
-
-    focused_monitor=$(hyprctl monitors -j | jq -r '.[] | select(.focused) | .name')
-
-    if ! pgrep -x "hyprpaper" >/dev/null; then
-        say "❌ Hyprpaper is not running ❌"
-        with_spinner "✨ Starting hyprpaper ✨" '
-          setsid uwsm app -- hyprpaper >/dev/null 2>&1 &
-          while ! pgrep -x hyprpaper >/dev/null; do
-            sleep 0.5
-          done
-        '
-        sleep 0.5
-        say "✨ Started hyprpaper ✨"
-    else
-        say "✨ Hyprpaper already running ✨" "$OK"
+# Clean orphaned cache files and their locks
+for cached in "$cacheDir"/*; do
+    [ -f "$cached" ] || continue
+    original="${wall_dir}/$(basename "$cached")"
+    if [ ! -f "$original" ]; then
+        nombre_archivo=$(basename "$cached")
+        rm -f "$cached" \
+            "${cacheDir}/.${nombre_archivo}.md5" \
+            "${cacheDir}/.lock_${nombre_archivo}"
     fi
+done
 
-    with_spinner "Unloading old wallpapers…" "hyprctl hyprpaper unload all"
-    with_spinner "Preloading new wallpaper…" "hyprctl hyprpaper preload '$selection'"
-    with_spinner "✨Applying wallpaper✨" "hyprctl hyprpaper wallpaper \"$focused_monitor,$selection\""
+# Clean any remaining lock files
+rm -f "${cacheDir}"/.lock_* 2>/dev/null || true
 
-    if [[ -f "$THEME_MODE_FILE" && $(<"$THEME_MODE_FILE") == "material-you" ]]; then
-        with_spinner "✨Generating Material You colors✨" "python3 '$MATERIAL_YOU_SCRIPT' '$selection'"
-        say "✨ Material You Magick ✨" "$ACCENT2"
-        "$SCRIPTS_DIR/magic.sh" "✨ Material-You-Magick ✨"
-        exit 0
-    fi
-
-    say "✨ WallMagick ✨" "$ACCENT2"
-    "$SCRIPTS_DIR/magic.sh" "✨ WallMagick ✨"
-else
-    say "❌ No wallpaper selected ❌" "$WARN"
-    notify-send -e -h string:x-canonical-private-synchronous:wallselect_no "Wallselect" "❌ No wallpaper selected" -i $HOME/.config/swaync/icons/bell.png
+# Check if rofi is already running
+if pidof rofi >/dev/null; then
+    pkill rofi
 fi
+
+# Launch rofi
+wall_selection=$(find "${wall_dir}" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" -o -iname "*.gif" \) -print0 |
+    xargs -0 basename -a |
+    LC_ALL=C sort -V |
+    while IFS= read -r A; do
+        if [[ "$A" =~ \.gif$ ]]; then
+            printf "%s\n" "$A" # Handle gifs by showing only file name
+        else
+            printf '%s\x00icon\x1f%s/%s\n' "$A" "${cacheDir}" "$A" # Non-gif files with icon convention
+        fi
+    done | $rofi_command)
+
+# Exit immediately if there is no selection
+[[ -z "${wall_selection}" ]] && exit 0
+
+# full wallpaper path
+wallpaper_path="${wall_dir}/${wall_selection}"
+
+# Ensure hyprpaper is running
+if ! pgrep -x "hyprpaper" >/dev/null; then
+    echo "🚀 Starting hyprpaper..."
+    hyprpaper &
+    sleep 0.5 # Wait a bit to ensure the socket is ready
+else
+    echo "✅ hyprpaper is already running"
+fi
+
+# Unload all previous wallpaper
+hyprctl hyprpaper unload all
+
+# Preload the wallpaper
+hyprctl hyprpaper preload "${wallpaper_path}"
+sleep 0.1 # Optional small delay
+
+# Set the wallpaper
+hyprctl hyprpaper wallpaper "$focused_monitor,${wallpaper_path}"
+
+# Optional: delay before theme script
+sleep 0.2
+
+# If you using material-you colors generate & update the colors
+if [[ -f "$themeModeFile" && $(<"$themeModeFile") == "material-you" ]]; then
+    python3 "${materialYouScript}" "${wallpaper_path}"
+    "$scriptsDir/magic.sh" "✨ Material-You-Magick 💫"
+    exit 0
+fi
+
+# Run theme script
+"$scriptsDir/magic.sh" "WallMagick 💫"

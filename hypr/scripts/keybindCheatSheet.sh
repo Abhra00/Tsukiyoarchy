@@ -1,11 +1,7 @@
-#!/bin/bash
-#  ┓┏┓┏┓┓┏┳┓┳┳┓┳┓  ┏┓┓┏┏┓┏┓┏┳┓┏┓┓┏┏┓┏┓┏┳┓
-#  ┃┫ ┣ ┗┫┣┫┃┃┃┃┃━━┃ ┣┫┣ ┣┫ ┃ ┗┓┣┫┣ ┣  ┃
-#  ┛┗┛┗┛┗┛┻┛┻┛┗┻┛  ┗┛┛┗┗┛┛┗ ┻ ┗┛┛┗┗┛┗┛ ┻
-#
+#!/usr/bin/env bash
 
 # A script to display Hyprland keybindings defined in your configuration
-# using walker for an interactive search menu.
+# using rofi for an interactive search menu.
 
 # Fetch dynamic keybindings from Hyprland
 #
@@ -35,7 +31,10 @@ dynamic_bindings() {
             -e 's/^65,/SUPER SHIFT,/' \
             -e 's/^68,/SUPER CTRL,/' \
             -e 's/^69,/SUPER SHIFT CTRL,/' \
-            -e 's/^72,/SUPER ALT,/'
+            -e 's/^72,/SUPER ALT,/' \
+            -e 's/^73,/SUPER SHIFT ALT,/' \
+            -e 's/^76,/SUPER CTRL ALT,/' \
+            -e 's/^77,/SUPER SHIFT CTRL ALT,/'
 }
 
 # Parse and format keybindings
@@ -87,4 +86,4 @@ parse_bindings() {
 dynamic_bindings |
     sort -u |
     parse_bindings |
-    walker --dmenu --theme keybindings -p 'Keybindings'
+    rofi -i -dmenu -theme ~/.config/rofi/hyprCheatSheet.rasi -p 'Keybindings:'

@@ -150,9 +150,9 @@ if [[ ! -d "$dir" ]]; then
     mkdir -p "$dir"
 fi
 
-# Launch walker menu
+# Launch rofi menu
 choice=$(printf "  Now\n  In 5 Seconds\n  In 10 Seconds\n  Active Window\n󰩭  Select Area\n  Focused Window\n  Satty Editor" |
-    walker --dmenu --theme dmenu_250 -p " Screenshot Menu")
+    rofi -dmenu -theme ~/.config/rofi/generalMenu.rasi -p " Screenshot Menu")
 
 # Run the appropiate function according to the choice
 case "$choice" in

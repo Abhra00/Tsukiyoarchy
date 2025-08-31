@@ -23,8 +23,8 @@ done
 # Add "material-you" option at the end
 echo "material-you" >>"$temp_map"
 
-# Show names in walker
-selected_theme=$(walker --dmenu -p " Select Theme" --theme dmenu_400 <"$temp_map")
+# Show names in rofi
+selected_theme=$(rofi -dmenu -theme ~/.config/rofi/generalMenu.rasi -p " Select Theme" <"$temp_map")
 
 # Clean up
 rm "$temp_map"

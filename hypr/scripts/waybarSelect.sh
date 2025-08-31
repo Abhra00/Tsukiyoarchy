@@ -7,10 +7,10 @@
 WAYBAR_THEME_DIR="$HOME/.config/waybar/themes"
 WAYBAR_CONFIG="$HOME/.config/waybar/config.jsonc"
 WAYBAR_CSS="$HOME/.config/waybar/style.css"
-ROFI_THEME="$HOME/.config/rofi/applets/waybarSelect.rasi"
+ROFI_THEME="$HOME/.config/rofi/generalMenu.rasi"
 
 main() {
-    choice=$(find "$WAYBAR_THEME_DIR" -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | walker --dmenu --theme dmenu_400 -p " Choose Waybar Style:")
+    choice=$(find "$WAYBAR_THEME_DIR" -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | rofi -dmenu -theme "${ROFI_THEME}" -p " Choose Waybar Style:")
 
     if [[ -n "$choice" ]]; then
         cp "$WAYBAR_THEME_DIR/$choice/config.jsonc" "$WAYBAR_CONFIG"

@@ -57,13 +57,13 @@ toggle_recording() {
 launch_menu() {
     if pgrep -x wf-recorder >/dev/null; then
         # Show only the stop option if recording is active
-        choice=$(printf "  Stop Recording" | walker --dmenu --theme dmenu_400 -p "  Already recording something")
+        choice=$(printf "  Stop Recording" | rofi -dmenu -theme ~/.config/rofi/generalMenu.rasi -p "  Already recording something")
         [[ "$choice" == *Stop* ]] && toggle_recording
         exit 0
     fi
 
     # If not recording, show full menu
-    choice=$(printf "  Fullscreen\n  Fullscreen + Sound\n󰕩  Record Region\n󰕩  Record Region + Sound" | walker --dmenu --theme dmenu_400 -p "  Select Recording Mode")
+    choice=$(printf "  Fullscreen\n  Fullscreen + Sound\n󰕩  Record Region\n󰕩  Record Region + Sound" | rofi -dmenu -theme ~/.config/rofi/generalMenu.rasi -p "  Select Recording Mode")
 
     case "$choice" in
     *Fullscreen\ +\ Sound*) record_fullscreen --audio="$(get_audio_output)" ;;
