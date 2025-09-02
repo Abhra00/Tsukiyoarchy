@@ -11,8 +11,8 @@
 * {{
        bg: 			            {background};
        bg-alpha: 		        {background}b3;
-       bg-alt:   		        {color8};
-       bg-alt-alpha:    	    {color8}b3;
+       bg-alt:   		        #{background.lighten(5%)};
+       bg-alt-alpha:    	    #{background.lighten(5%)}b3;
        fg:       		        {foreground};
        border:     		        {color12};
        selected-color:         	{color12};
