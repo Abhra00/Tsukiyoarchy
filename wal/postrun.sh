@@ -25,6 +25,9 @@ ln -sf "${XDG_CACHE_HOME:-$HOME/.cache}/wal/zathurarc-pywal" "$zathuraconf"
 cp "$HOME/.cache/wal/qtct-colors.conf" "$HOME/.config/qt5ct/colors/pywalqtcolors.conf"
 cp "$HOME/.cache/wal/qtct-colors.conf" "$HOME/.config/qt6ct/colors/pywalqtcolors.conf"
 
+# Copy ghostty colors
+cp "$HOME/.cache/wal/colors-pywal-ghostty" "$HOME/.config/ghostty/themes/pywal"
+
 # Copy kvantum colors
 cp "$HOME/.cache/wal/pywal.kvconfig" "$HOME/.config/Kvantum/pywal/pywal.kvconfig"
 cp "$HOME/.cache/wal/pywal.svg" "$HOME/.config/Kvantum/pywal/pywal.svg"

@@ -326,9 +326,9 @@ default_device = "◇"
 # Marks the default endpoint on the Playback/Recording tabs
 default_stream = "◇"
 # The selection indicator in a tab
-selector_top = "█"
-selector_middle = "█"
-selector_bottom = "█"
+selector_top = "▓"
+selector_middle = "▒"
+selector_bottom = "░"
 # Surround the selected tab in the tab menu
 tab_marker_left = "["
 tab_marker_right = "]"
@@ -432,9 +432,9 @@ help_more = { }
 [char_sets.compat]
 default_device = "◊"
 default_stream = "◊"
-selector_top = "░"
-selector_middle = "▒"
-selector_bottom = "░"
+selector_top = "▒"
+selector_middle = "▓"
+selector_bottom = "▒"
 tab_marker_left = "["
 tab_marker_right = "]"
 list_more = "•••"

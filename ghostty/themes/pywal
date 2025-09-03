@@ -1,0 +1,27 @@
+# ┏┓┏┓┓ ┏┓┳┓┏┓  ┏┓┓┏┓ ┏┏┓┓   ┏┓┓┏┏┓┏┓┏┳┓┏┳┓┓┏
+# ┃ ┃┃┃ ┃┃┣┫┗┓━━┃┃┗┫┃┃┃┣┫┃ ━━┃┓┣┫┃┃┗┓ ┃  ┃ ┗┫
+# ┗┛┗┛┗┛┗┛┛┗┗┛  ┣┛┗┛┗┻┛┛┗┗┛  ┗┛┛┗┗┛┗┛ ┻  ┻ ┗┛
+#
+
+background = 1d2433
+foreground = bfd3ff
+cursor-color = bfd3ff
+selection-background = bfd3ff
+selection-foreground = 1d2433
+
+palette = 0=#242d40
+palette = 1=#D0879D
+palette = 2=#9FD6B6
+palette = 3=#CDD2AF
+palette = 4=#92b7ea
+palette = 5=#AD9BEA
+palette = 6=#acd9ec
+palette = 7=#b0c3ec
+palette = 8=#242d40
+palette = 9=#D0879D
+palette = 10=#9FD6B6
+palette = 11=#CDD2AF
+palette = 12=#92b7ea
+palette = 13=#AD9BEA
+palette = 14=#acd9ec
+palette = 15=#bfd3ff

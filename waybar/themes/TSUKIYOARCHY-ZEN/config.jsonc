@@ -130,11 +130,11 @@
   "cpu": {
       "interval": 5,
       "format": "",
-      "on-click": "hyprctl dispatch exec '[float; size 1000 750]' '$TERMINAL -e btop'"
+      "on-click": "hyprctl dispatch exec '[float; size 1100 800]' '$TERMINAL --adjust-cell-height=0% -e btop'"
   },
   "memory": {
       "format": "",
-      "on-click": "hyprctl dispatch exec '[float; size 1000 750]' '$TERMINAL -e btop'",
+      "on-click": "hyprctl dispatch exec '[float; size 1100 800]' '$TERMINAL --adjust-cell-height=0% -e btop'",
       "tooltip": true
   },
   "backlight": {
@@ -188,7 +188,7 @@
   },
   "pulseaudio": {
       "format": "{icon}",
-      "on-click": "hyprctl dispatch exec '[float]' '$TERMINAL -e wiremix'",
+      "on-click": "hyprctl dispatch exec '[float]' '$TERMINAL --adjust-cell-height=0% -e wiremix'",
       "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
       "tooltip-format": "Playing at {volume}%",
       "scroll-step": 5,

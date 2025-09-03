@@ -44,7 +44,7 @@
     "image": {
         "path": "/home/bugs/.config/waybar/icons/archlinux.png",
         "size": 24,
-        "on-click": "hyprctl dispatch exec '[float; size 1000 750]' '$TERMINAL -e btop'",
+        "on-click": "hyprctl dispatch exec '[float; size 1100 750]' '$TERMINAL --adjust-cell-height=0% -e btop'",
         "tooltip": false,
     },
 
@@ -97,7 +97,7 @@
         "format": "{icon}",
         "format-muted": "󰖁",
         "format-icons": ["󰕿", "󰖀", "󰕾"],
-        "on-click": "hyprctl dispatch exec '[float]' '$TERMINAL -e wiremix'",
+        "on-click": "hyprctl dispatch exec '[float]' '$TERMINAL --adjust-cell-height=0% -e wiremix'",
         "on-scroll-up": "wpctl set-volume -l '1.0' @DEFAULT_AUDIO_SINK@ 1%+ &> /dev/null",
         "on-scroll-down": "wpctl set-volume -l '1.0' @DEFAULT_AUDIO_SINK@ 1%- &> /dev/null",
         "tooltip-format": "Volume: {volume}%"

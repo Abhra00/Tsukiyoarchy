@@ -4,15 +4,15 @@
 #  ┗┛┗┛┛┗┛┗ ┻ ┗┛┛┗┣┛┛┗┻┛
 #
 
-app_name="scratchpad-kitty"
+app_name="scratchpad-term"
 workspace="special:scratch"
 
-# Find kitty window
+# Find terminal window
 winid=$(hyprctl clients -j | jq -r ".[] | select(.title==\"$app_name\") | .address")
 
 if [[ -z "$winid" ]]; then
-    # State 1 → Not running → spawn floating kitty
-    hyprctl dispatch exec "[float] uwsm app -- kitty --title $app_name"
+    # State 1 → Not running → spawn floating terminal
+    hyprctl dispatch exec "[float] uwsm app -- $TERMINAL --title=$app_name"
     sleep 0.3
     hyprctl dispatch focuswindow title:$app_name
 
