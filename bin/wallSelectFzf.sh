@@ -5,8 +5,8 @@
 #
 
 # wallselect.sh – wallpaper picker with live preview + hyprpaper integration
-# Author: Abhra Mondal (https://github.com/Abhra00)
-#  NOTE: Dependencies: fzf, kitty (with icat), hyprpaper, pywal, material-you color generation python library, gum
+# Author: Bugs (https://github.com/Abhra00)
+#  NOTE: Dependencies: fzf, chafa, hyprpaper, pywal, material-you color generation python library, gum
 
 # Define variables
 WALL_DIR="$HOME/walls"
@@ -40,20 +40,14 @@ with_spinner() {
     gum spin --spinner dot --spinner.foreground "$ACCENT" --title "$1" -- bash -c "$2"
 }
 
-# --- Kitty preview helpers ---
-
+# --- Image preview helpers ---
 preview_func() {
     local img="$1"
-    kitty +kitten icat --clear --stdin=no --transfer-mode=memory
-    kitty +kitten icat \
-        --place "${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@0x0" \
-        --transfer-mode=memory --stdin=no "$img" </dev/null
+    printf '\033_Ga=d\033\\' # Clear the previous images
+    chafa -f kitty -s "${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}" "$img"
 }
 
-unload_all_kitty_images() {
-    kitty +kitten icat --clear
-}
-export -f preview_func unload_all_kitty_images
+export -f preview_func
 
 # --- Wallpaper selection with fzf ---
 
@@ -75,8 +69,6 @@ selection=$(
 if [[ -n "$selection" ]]; then
     say "Setting wallpaper" "$ACCENT"
     echo "$selection"
-
-    unload_all_kitty_images
 
     focused_monitor=$(hyprctl monitors -j | jq -r '.[] | select(.focused) | .name')
 
