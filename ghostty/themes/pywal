@@ -3,25 +3,25 @@
 # ┗┛┗┛┗┛┗┛┛┗┗┛  ┣┛┗┛┗┻┛┛┗┗┛  ┗┛┛┗┗┛┗┛ ┻  ┻ ┗┛
 #
 
-background = 1d2433
-foreground = bfd3ff
-cursor-color = bfd3ff
-selection-background = bfd3ff
-selection-foreground = 1d2433
+background = 2E3440
+foreground = D8DEE9
+cursor-color = D8DEE9
+selection-background = D8DEE9
+selection-foreground = 2E3440
 
-palette = 0=#242d40
-palette = 1=#D0879D
-palette = 2=#9FD6B6
-palette = 3=#CDD2AF
-palette = 4=#92b7ea
-palette = 5=#AD9BEA
-palette = 6=#acd9ec
-palette = 7=#b0c3ec
-palette = 8=#242d40
-palette = 9=#D0879D
-palette = 10=#9FD6B6
-palette = 11=#CDD2AF
-palette = 12=#92b7ea
-palette = 13=#AD9BEA
-palette = 14=#acd9ec
-palette = 15=#bfd3ff
+palette = 0=#3B4252
+palette = 1=#BF616A
+palette = 2=#A3BE8C
+palette = 3=#EBCB8B
+palette = 4=#81A1C1
+palette = 5=#B48EAD
+palette = 6=#88C0D0
+palette = 7=#E5E9F0
+palette = 8=#4C566A
+palette = 9=#BF616A
+palette = 10=#A3BE8C
+palette = 11=#EBCB8B
+palette = 12=#81A1C1
+palette = 13=#B48EAD
+palette = 14=#8FBCBB
+palette = 15=#ECEFF4

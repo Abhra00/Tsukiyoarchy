@@ -8,10 +8,9 @@
 #--------Appearance----------#
 #----------------------------#
 background-opacity = 1.0
-window-padding-x = 10
-window-padding-y = 10
+window-padding-x = 15
+window-padding-y = 15
 window-padding-balance = 1
-
 
 #---------Theme-----------#
 #-------------------------#
@@ -19,8 +18,9 @@ theme = pywal
 
 #---------Fonts----------#
 #------------------------#
-font-family = "Maple Mono NF"
-font-size = 16
+font-family = "Hurmit Nerd Font"
+font-style = "SemiBold"
+font-size = 13
 adjust-cell-height = 40%
 
 #---Shell Integration---#
@@ -29,6 +29,7 @@ shell-integration-features = no-cursor
 
 #--------Cursor----------#
 #------------------------#
+cursor-style = "bar"
 adjust-cursor-thickness = 120%
 adjust-cursor-height = 40%
 cursor-style-blink = true
