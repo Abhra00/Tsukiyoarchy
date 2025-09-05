@@ -26,7 +26,7 @@ format = "[\\(](bold bright-white)[$symbol$branch](bold bright-yellow)"
 
 # Git status (characters + bright colors)
 [git_status]
-format = " $all_status$ahead_behind[\\)](bold bright-white) "
+format = "$all_status$ahead_behind[\\)](bold bright-white) "
 conflicted = "[  ](bright-red)"
 ahead      = "[ 󱖗 $count](bold bright-blue)"
 behind     = "[ 󱖙 $count](bold bright-blue)"
