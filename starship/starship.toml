@@ -5,38 +5,42 @@
 # ~/.config/starship.toml
 
 format = """
-[\\[](bold bright-white)$username[|](bold bright-green)$directory $git_branch$git_status[\\]](bold bright-white) $character
+[\\[](bold bright-blue) $username[𜸨](bold bright-green)$directory$git_branch$git_status [\\]](bold bright-blue) $character
 """
 
 # Username
 [username]
 show_always = true
-format = "[$user](bold bright-yellow)"
+format = "[$user](bold bright-red)"
 
-# Directory (full path; change to $path_basename or truncation if you want just last folder)
+# Directory
 [directory]
-truncation_length = 0
+home_symbol = 'home'
+truncation_length = 2
+truncation_symbol = '…/'
 truncate_to_repo = false
-format = "[$path](bold bright-cyan)"
+read_only = ' ro'
+read_only_style = 'bold bright-red'
+format = "[$path](bold bright-white)[$read_only]($read_only_style)"
 
 # Git branch
 [git_branch]
 symbol = " "
-format = "[\\(](bold bright-white)[$symbol$branch](bold bright-yellow)"
+format = " [\\(](bold bright-white)[$symbol$branch](bold bright-yellow)"
 
 # Git status (characters + bright colors)
 [git_status]
-format = "$all_status$ahead_behind[\\)](bold bright-white) "
-conflicted = "[  ](bright-red)"
+format = "$all_status$ahead_behind[\\)](bold bright-white)"
+conflicted = "[  $count](bright-red)"
 ahead      = "[ 󱖗 $count](bold bright-blue)"
 behind     = "[ 󱖙 $count](bold bright-blue)"
 diverged   = "[ 󰿤 $count](bold bright-red)"
-untracked  = "[ 󰻃 ](bold bright-yellow)"
-stashed    = "[ 󰙧 ](bold bright-cyan)"
-modified   = "[ 󰺕 ](bold bright-yellow)"
-staged     = "[ 󰗡 ](bold bright-green)"
-renamed    = "[ 󱖘 ](bold bright-magenta)"
-deleted    = "[ 󰅚 ](bold bright-red)"
+untracked  = "[ 󰻃 $count](bold bright-yellow)"
+stashed    = "[ 󰙧 $count](bold bright-cyan)"
+modified   = "[ 󰺕 $count](bold bright-yellow)"
+staged     = "[ 󰗡 $count](bold bright-green)"
+renamed    = "[ 󱖘 $count](bold bright-magenta)"
+deleted    = "[ 󰅚 $count](bold bright-red)"
 
 # Character module — keep the prompt character fixed as "•›"
 [character]
