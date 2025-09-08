@@ -18,8 +18,8 @@ theme = pywal
 
 #---------Fonts----------#
 #------------------------#
-font-family = "Hurmit Nerd Font"
-font-size = 13
+font-family = "SFMono Nerd Font"
+font-size = 15
 adjust-cell-height = 40%
 
 #---Shell Integration---#
