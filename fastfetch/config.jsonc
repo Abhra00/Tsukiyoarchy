@@ -1,70 +1,76 @@
-/**
- *    ┏┓┏┓┏┓┏┳┓┏┓┏┓┏┳┓┏┓┓┏
- *    ┣ ┣┫┗┓ ┃ ┣ ┣  ┃ ┃ ┣┫
- *    ┻ ┛┗┗┛ ┻ ┻ ┗┛ ┻ ┗┛┛┗
- *                        
- */
 {
     "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
-    "logo": null,
+    "logo": {
+        "source": "/home/bugs/.local/share/bg.sqre",
+        "type": "kitty",
+        "height": 12,
+        "padding": {
+            "top": 2,
+            "left": 3
+        }
+    },
     "display": {
-        "separator": "  ",
-        "color": "white",
-        "constants": ["\u001b[37m", "\u001b[38;5;12m", "\u001b[38;5;13m", "\u001b[38;5;14m"]
+        "separator": " "
     },
     "modules": [
+        "break",
+        "break",
         {
             "type": "custom",
-            "key": "┌───────────────────────────────────┐"
-        },
-        {
-            "type": "kernel",
-            "key": "│ {$2}{$1}  kernel",
-            "format": "{$2}{release>22}{$1} │"
-        },
-        {
-            "type": "command",
-            "key": "│   uptime",
-            "text": "uptime -p | cut -d ' ' -f 2-",
-            "format": "{>22} │"
-        },
-        {
-            "type": "shell",
-            "key": "│ {$2}{$1}  shell ",
-            "format": "{$2}{pretty-name>22}{$1} │"
-        },
-        {
-            "type": "command",
-            "key": "│ {$3}{$1}  mem   ",
-            "text": "free -m | awk 'NR==2{printf \"%.2f GiB / %.2f GiB\",$3/1024,$2/1024}'",
-            "format": "{$3}{>22}{$1} │"
-        },
-        {
-            "type": "packages",
-            "key": "│   pkgs  ",
-            "format": "{all>22} │"
-        },
-        {
-            "type": "command",
-            "key": "│ {$2}{$1}  user  ",
-            "text": "echo $USER",
-            "format": "{$2}{>22}{$1} │"
-        },
-        {
-            "type": "command",
-            "key": "│   hname ",
-            "text": "hostnamectl hostname",
-            "format": "{>22} │"
+            "format": "\u001b[35mT S U K I Y O A R C H Y\u001b[0m\n"
         },
         {
             "type": "os",
-            "key": "│ {$4}󰻀{$1}  distro",
-            "format": "{$4}{pretty-name>22}{$1} │"
+            "key": " ",
+            "keyColor": "32"   // color10 (green)
+        },
+        {
+            "type": "kernel",
+            "key": " ",
+            "keyColor": "33"   // color11 (yellow)
+        },
+        {
+            "type": "packages",
+            "format": "{} (pacman)",
+            "key": " ",
+            "keyColor": "36"   // color12 (cyan/blue)
+        },
+        {
+            "type": "shell",
+            "key": " ",
+            "keyColor": "35"   // color13 (magenta)
+        },
+        {
+            "type": "wm",
+            "key": " ",
+            "keyColor": "36"   // color14 (teal)
+        },
+        {
+            "type": "cursor",
+            "key": " ",
+            "keyColor": "32"   // cycle back to green
+        },
+        {
+            "type": "terminalfont",
+            "key": " ",
+            "keyColor": "33"
+        },
+        {
+            "type": "uptime",
+            "key": " ",
+            "keyColor": "36"
+        },
+        {
+            "type": "media",
+            "key": "󰝚 ",
+            "keyColor": "35"
         },
         {
             "type": "custom",
-            "key": "└───────────────────────────────────┘"
+            "format": "\u001b[90m▃▃▃  \u001b[31m▃▃▃  \u001b[32m▃▃▃  \u001b[33m▃▃▃  \u001b[34m▃▃▃  \u001b[35m▃▃▃  \u001b[36m▃▃▃  \u001b[37m▃▃▃ "
         },
+        "break",
         "break"
     ]
 }
+
