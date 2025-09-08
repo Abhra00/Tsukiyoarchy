@@ -16,7 +16,7 @@ export PATH="$HOME/.local/bin:$HOME/.config/hypr/scripts:$HOME/Applications:/var
 # DEFAULT PROGRAMS
 # ------------------------
 export EDITOR="nvim"
-export TERMINAL="kitty"
+export TERMINAL="ghostty"
 export LOCATION="Memari"
 export BROWSER="chromium"
 
