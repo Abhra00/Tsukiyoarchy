@@ -7,15 +7,6 @@
 force_color_prompt=yes
 color_prompt=yes
 
-#    ┏┓┳┓┏┓┳┳┓┏┓┏┳┓
-#    ┃┃┣┫┃┃┃┃┃┃┃ ┃
-#    ┣┛┛┗┗┛┛ ┗┣┛ ┻
-#
-
-# Color prompt
-force_color_prompt=yes
-color_prompt=yes
-
 # Useful prompt functions
 # Git branch function
 parse_git_branch() {
