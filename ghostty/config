@@ -18,7 +18,7 @@ theme = pywal
 
 #---------Fonts----------#
 #------------------------#
-font-family = "CaskaydiaCove Nerd Font"
+font-family = "JetBrainsMono Nerd Font"
 font-size = 15
 adjust-cell-height = 40%
 
